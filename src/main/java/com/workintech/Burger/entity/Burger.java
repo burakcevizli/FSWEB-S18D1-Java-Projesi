@@ -27,6 +27,6 @@ public class Burger {
     @Enumerated(EnumType.STRING)
     private BreadType breadType;
 
-    @Enumerated(EnumType.STRING)
-    private Content contents;
+    @Column(name = "content")
+    private String contents;
 }

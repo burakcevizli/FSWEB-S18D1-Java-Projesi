@@ -3,7 +3,6 @@ package com.workintech.Burger.controller;
 import com.workintech.Burger.dao.BurgerDao;
 import com.workintech.Burger.entity.BreadType;
 import com.workintech.Burger.entity.Burger;
-import com.workintech.Burger.entity.Content;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,15 +45,16 @@ public class BurgerController {
         return burgerDao.remove(id);
     }
 
-    @GetMapping("/burgers/findByBreadType")
-    public List<Burger> findByBreadType(@RequestBody BreadType breadType){
-       return burgerDao.findByBreadType(breadType);
+    @GetMapping("/burgers/findByBreadType/{breadType}")
+    public List<Burger> findByBreadType(@RequestBody String breadType){
+        BreadType breadTypeEnum = BreadType.valueOf(breadType);
+       return burgerDao.findByBreadType(breadTypeEnum);
     }
-    @GetMapping("/burgers/findByPrice")
+    @GetMapping("/burgers/findByPrice/{price}")
     public List<Burger> findByPrice(@RequestBody int price){
         return burgerDao.findByPrice(price);
     }
-    @GetMapping("/burgers/findByContent")
+    @GetMapping("/burgers/findByContent/{content}")
     public List<Burger> findByContent(@RequestBody String  content){
         return burgerDao.findByContent(content);
     }

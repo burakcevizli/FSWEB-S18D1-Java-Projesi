@@ -9,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Repository
 public class BurgerDaoImpl implements BurgerDao{
@@ -36,7 +33,7 @@ public class BurgerDaoImpl implements BurgerDao{
 
     @Override
     public List<Burger> findByPrice(int price) {
-        TypedQuery<Burger> query = entityManager.createQuery("SELECT e FROM Burger e WHERE e.price > :price"
+        TypedQuery<Burger> query = entityManager.createQuery("SELECT e FROM Burger e WHERE e.price > :price ORDER BY e.price"
                 ,Burger.class);
         query.setParameter("price" ,price);
         return query.getResultList();
@@ -45,7 +42,7 @@ public class BurgerDaoImpl implements BurgerDao{
     @Override
     public List<Burger> findByBreadType(BreadType breadType) {
         TypedQuery<Burger> query  = entityManager.createQuery("SELECT e FROM Burger WHERE e.breadType = :breadType " +
-                        "ORDER BY e.name"
+                        "ORDER BY e.name asc"
         ,Burger.class);
         query.setParameter("breadType",breadType);
         return query.getResultList();
@@ -53,7 +50,8 @@ public class BurgerDaoImpl implements BurgerDao{
 
     @Override
     public List<Burger> findByContent(String content) {
-        TypedQuery<Burger> query = entityManager.createQuery("SELECT e FROM Burger WHERE e.content = :content"
+        TypedQuery<Burger> query = entityManager.createQuery("SELECT e FROM Burger WHERE " +
+                        "e.contents like CONCAT('%',:content,'%') ORDER BY b.name"
         , Burger.class);
         query.setParameter("content" , content);
         return query.getResultList();
